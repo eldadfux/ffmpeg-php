@@ -1,0 +1,19 @@
+{
+  "name": "eldadfux/ffmpeg-php",
+  "description": "Simple PHP wrraper SDK for the ffmpeg CLI",
+  "type": "library",
+  "keywords": ["video", "transcoding","ffmpeg", "ffprobe", "hls", "streaming"],
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {"FFMPEG\\": "src"}
+  },
+  "authors": [
+    {
+      "name": "Eldad Fux",
+      "email": "eldad.fux@gmail.com"
+    }
+  ],
+  "require": {
+  }
+}
