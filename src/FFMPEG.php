@@ -2,6 +2,8 @@
 
 namespace FFMPEG;
 
+use Exception;
+
 /**
  *
 1 Synopsis
@@ -849,8 +851,19 @@ class FFMPEG
     const VIDEO_SIZE_UHD2160    = 'uhd2160'; // 3840x2160
     const VIDEO_SIZE_UHD4320    = 'uhd4320'; // 7680x4320
 
+    /**
+     * @var string
+     */
     protected $bin;
 
+    /**
+     * @var string
+     */
+    protected $output;
+
+    /**
+     * @var array
+     */
     protected $options = array();
 
     /**
@@ -870,7 +883,20 @@ class FFMPEG
      */
     public function input($input)
     {
-        $this->addOption('-i', $input);
+        $this->option('-i', $input);
+
+        return $this;
+    }
+
+    /**
+     * Set output filename and container format
+     *
+     * @param $output
+     * @return $this
+     */
+    public function output($output)
+    {
+        $this->output = $output;
 
         return $this;
     }
@@ -882,9 +908,32 @@ class FFMPEG
      *
      * @param $key
      * @param $value
+     * @return $this
      */
-    public function addOption($key, $value)
+    public function option($key, $value)
     {
         $this->options[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Execute FFMPEG command and get result
+     */
+    public function execute()
+    {
+        if(empty($this->output)) {
+            throw new Exception('Missing output format. Use $ffmpeg->output(\'example.mp4\'); before execution');
+        }
+
+        $args = '';
+
+        foreach($this->options as $key => $value) {
+            $args .= $key . ' ' . $value . '';
+        }
+
+        $output = shell_exec("{$this->bin} {$args}{$this->output}");
+
+        return $output;
     }
 }
