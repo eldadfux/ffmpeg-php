@@ -37,7 +37,7 @@ namespace FFMPEG;
 7.2 Date
 7.3 Time duration
 7.3.1 Examples
-7.4 Video size
+7.4 Video size - WORK IN PROGRESS
 7.5 Video rate
 7.6 Ratio
 7.7 Color
@@ -863,18 +863,28 @@ class FFMPEG
     }
 
     /**
-     *
      * @see https://ffmpeg.org/ffmpeg.html#Synopsis
      *
-     * @param $input
+     * @param string $input
      * @return $this
      */
     public function input($input)
     {
-        $this->options['-i'] = $input;
+        $this->addOption('-i', $input);
 
         return $this;
     }
 
-
+    /**
+     * Add Option
+     *
+     * Adds an FFMPEG cli option to instance
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addOption($key, $value)
+    {
+        $this->options[$key] = $value;
+    }
 }
