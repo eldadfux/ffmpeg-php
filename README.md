@@ -13,6 +13,8 @@ You can learn more about how to use ffmpeg from command line in [this tutorial](
 ## Usage
 
 ```php
+$ffmpeg = new FFmpeg('/usr/local/bin/ffmpeg');
+
 $ffmpeg
     ->logLevel(FFmpeg::LOG_LEVEL_FATAL)
     ->size(FFmpeg::VIDEO_SIZE_2K)
