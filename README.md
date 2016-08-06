@@ -15,7 +15,7 @@ You can learn more about how to use ffmpeg from command line in [this tutorial](
     $ffmpeg
         ->logLevel(FFmpeg::LOG_LEVEL_FATAL)
         ->size(FFmpeg::VIDEO_SIZE_2K)
-        ->output(demo.mp4)
+        ->output('demo.mp4')
         ->execute()
     ;
 
