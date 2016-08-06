@@ -6,7 +6,7 @@
   "license": "MIT",
   "minimum-stability": "stable",
   "autoload": {
-    "psr-4": {"FFMPEG\\": "src"}
+    "psr-4": {"FFmpeg\\": "src"}
   },
   "authors": [
     {
