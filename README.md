@@ -1,5 +1,7 @@
 # FFmpeg-PHP
 
+** **LIVE** - WORK IN PROGRESS **
+
 Simple PHP driver for the ffmpeg CLI tool
 
 ## Getting Started
