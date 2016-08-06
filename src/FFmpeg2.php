@@ -1,15 +1,42 @@
 <?php
 
-namespace FFMPEG;
+namespace FFmpeg;
 
 use Exception;
 
 /**
  * Class FFMPEG
+ *
+ * $ffmpeg = new FFmpeg('/usr/local/bin/ffmpeg');
+ *
+ * $ffmpeg
+ *      ->logLevel(FFmpeg::LOG_LEVEL_FATAL)
+ *      ->size(FFmpeg::VIDEO_SIZE_2K)
+ *      ->output(demo.mp4)
+ *      ->execute()
+ * ;
+ *
  * @package FFMPEG
+ *
  */
-class FFMPEG
+class FFmpeg
 {
+    /**
+     * Log level options
+     */
+    const LOG_LEVEL_QUIET   = -8;   // Show nothing at all; be silent.
+    const LOG_LEVEL_PANIC   = 0;    // Only show fatal errors which could lead the process to crash, such as and assert failure. This is not currently used for anything.
+    const LOG_LEVEL_FATAL   = 8;    // Only show fatal errors. These are errors after which the process absolutely cannot continue after.
+    const LOG_LEVEL_ERROR   = 16;   // Show all errors, including ones which can be recovered from.
+    const LOG_LEVEL_WARNING = 24;   // Show all warnings and errors. Any message related to possibly incorrect or unexpected events will be shown.
+    const LOG_LEVEL_INFO    = 32;   // Show informative messages during processing. This is in addition to warnings and errors. This is the default value.
+    const LOG_LEVEL_VERBOSE = 40;   // Same as info, except more verbose.
+    const LOG_LEVEL_DEBUG   = 48;   // Show everything, including debugging information.
+    const LOG_LEVEL_TRACE   = 50;
+
+    /**
+     * Standard  supported video sizes
+     */
     const VIDEO_SIZE_NTSC       = 'ntsc'; // 720x480
     const VIDEO_SIZE_PAL        = 'pal'; // 720x576
     const VIDEO_SIZE_QNTSC      = 'qntsc'; // 352x240
@@ -89,6 +116,15 @@ class FFMPEG
     }
 
     /**
+     * @param $level
+     * @return FFmpeg
+     */
+    public function logLevel($level)
+    {
+        return $this->option('-loglevel', $level);
+    }
+
+    /**
      * @see https://ffmpeg.org/ffmpeg.html#Synopsis
      *
      * @param string $input
@@ -96,9 +132,72 @@ class FFMPEG
      */
     public function input($input)
     {
-        $this->option('-i', $input);
+        return $this->option('-i', $input);
+    }
 
-        return $this;
+    /**
+     * Set frame size (WxH or abbreviation)
+     *
+     * For example:
+     *
+     * $ffmpeg->size('800x600');
+     *
+     * or set using one of the pre defined constants:
+     *
+     * $ffmpeg->size(FFmpeg::VIDEO_SIZE_4K);
+     *
+     * @param $size
+     * @return $this
+     */
+    public function size($size)
+    {
+        return $this->option('-s', $size);
+    }
+
+    /**
+     * Sets video bitrate value. Accepts value like '800k' or '1m' format
+     *
+     * @param $rate
+     * @return $this
+     */
+    public function videoBitrate($rate)
+    {
+        return $this->option('-b:v', $rate);
+    }
+
+    /**
+     * Select an encoder (when used before an output file) or a decoder (when used before an input file) for one or more streams.
+     * codec is the name of a decoder/encoder or a special value copy (output only) to indicate that the stream is not to be re-encoded.
+     *
+     * To check list of your available encoder use:
+     *  $ ffmpeg -codecs
+     *
+     * @param $codec
+     * @return $this
+     */
+    public function videoCodec($codec)
+    {
+        return $this->option('-c:v', $codec);
+    }
+
+    /**
+     * Sets video bitrate value. Accepts value like '128k' format
+     *
+     * @param $rate
+     * @return $this
+     */
+    public function audioBitrate($rate)
+    {
+        return $this->option('-b:a', $rate);
+    }
+
+    /**
+     * @param $codec
+     * @return $this
+     */
+    public function audioCodec($codec)
+    {
+        return $this->option('-c:a', $codec);
     }
 
     /**
@@ -150,3 +249,11 @@ class FFMPEG
         return $output;
     }
 }
+
+$ffmpeg = new FFmpeg('/usr/local/bin/ffmpeg');
+
+$ffmpeg
+    ->size(FFmpeg::VIDEO_SIZE_2K)
+;
+
+

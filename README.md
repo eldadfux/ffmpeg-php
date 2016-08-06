@@ -10,6 +10,14 @@ First, install ffmpeg cli tool on your operating system. Visit the compilation g
 
 You can learn more about how to use ffmpeg from command line in [this tutorial](http://blog.superuser.com/2012/02/24/ffmpeg-the-ultimate-video-and-audio-manipulation-tool/)
 
+## Usage
+    
+    $ffmpeg
+        ->logLevel(FFmpeg::LOG_LEVEL_FATAL)
+        ->size(FFmpeg::VIDEO_SIZE_2K)
+        ->output(demo.mp4)
+        ->execute()
+    ;
 
 http://blog.superuser.com/2011/11/07/video-conversion-done-right-codecs-and-software/
 https://support.jwplayer.com/customer/portal/articles/1430240-hls-adaptive-streaming
