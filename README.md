@@ -17,6 +17,7 @@ $ffmpeg = new FFmpeg('/usr/local/bin/ffmpeg');
 
 $ffmpeg
     ->logLevel(FFmpeg::LOG_LEVEL_FATAL)
+    ->input('original.mp4')
     ->size(FFmpeg::VIDEO_SIZE_2K)
     ->output('demo.mp4')
     ->execute()
